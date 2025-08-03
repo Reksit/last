@@ -222,6 +222,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
       position: relative;
       overflow: hidden;
+      overflow-y: auto;
     }
 
     .auth-container::before {
@@ -247,6 +248,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       max-width: 450px;
       position: relative;
       z-index: 10;
+      margin: auto;
     }
 
     .auth-card {
@@ -255,6 +257,8 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       background: rgba(30, 30, 45, 0.95);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      max-height: none;
+      overflow: visible;
     }
 
     .auth-header {
@@ -279,10 +283,12 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       border-radius: 25px;
       overflow: hidden;
       border: 2px solid rgba(255, 255, 255, 0.2);
+      flex-wrap: wrap;
     }
 
     .tab-button {
       flex: 1;
+      min-width: 80px;
 
       padding: 12px 20px;
       border: none;
@@ -301,73 +307,76 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
 
     .verification-info {
       text-align: center;
-      margin-bottom: 30px;
-      padding: 20px;
+      margin-bottom: 25px;
+      padding: 15px;
       background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, rgba(0, 188, 212, 0.1) 100%);
       border-radius: 25px;
       border: 2px solid rgba(100, 255, 218, 0.2);
     }
 
     .verification-icon {
-      font-size: 48px;
-      margin-bottom: 15px;
+      font-size: 40px;
+      margin-bottom: 10px;
     }
 
     .verification-info h3 {
       color: #fff;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-weight: 600;
-      font-size: 24px;
+      font-size: 20px;
     }
 
     .verification-info p {
       color: #b0b0b0;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       line-height: 1.5;
+      font-size: 14px;
     }
 
     .email-highlight {
       background: rgba(100, 255, 218, 0.2);
-      padding: 8px 15px;
+      padding: 6px 12px;
       border-radius: 15px;
       color: #64ffda !important;
       font-weight: 600;
-      margin: 10px 0;
+      margin: 8px 0;
+      word-break: break-all;
+      font-size: 13px;
     }
 
     .verification-note {
-      font-size: 14px;
+      font-size: 13px;
       font-style: italic;
       color: #ccc !important;
     }
 
     .verification-sender {
-      font-size: 12px;
+      font-size: 11px;
       color: #888 !important;
-      margin-top: 15px;
-      padding-top: 10px;
+      margin-top: 10px;
+      padding-top: 8px;
       border-top: 1px solid rgba(255,255,255,0.1);
     }
 
     .verification-input {
       text-align: center;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 600;
-      letter-spacing: 8px;
-      padding: 20px;
+      letter-spacing: 6px;
+      padding: 15px;
     }
 
     .resend-section {
       text-align: center;
-      margin-top: 20px;
-      padding-top: 20px;
+      margin-top: 15px;
+      padding-top: 15px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .resend-text {
       color: #b0b0b0;
-      font-size: 14px;
-      margin-bottom: 10px;
+      font-size: 13px;
+      margin-bottom: 8px;
     }
 
     .resend-btn {
@@ -377,7 +386,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       font-weight: 600;
       cursor: pointer;
       text-decoration: underline;
-      font-size: 14px;
+      font-size: 13px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -393,6 +402,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
 
     .auth-form-container {
       text-align: left;
+      min-height: auto;
     }
 
     .auth-form {
@@ -400,7 +410,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .form-group label {
@@ -412,10 +422,10 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
 
     .auth-btn {
       width: 100%;
-      padding: 15px;
+      padding: 12px;
       font-size: 16px;
       font-weight: 600;
-      margin-top: 20px;
+      margin-top: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -441,6 +451,83 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       to { opacity: 1; transform: translateY(0); }
     }
   `]
+    @media (max-height: 700px) {
+      .auth-container {
+        align-items: flex-start;
+        padding: 10px;
+      }
+      
+      .auth-card {
+        padding: 20px;
+        margin: 10px 0;
+      }
+      
+      .verification-info {
+        padding: 10px;
+        margin-bottom: 15px;
+      }
+      
+      .verification-icon {
+        font-size: 30px;
+        margin-bottom: 8px;
+      }
+      
+      .verification-info h3 {
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+      
+      .verification-info p {
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+      
+      .email-highlight {
+        padding: 4px 8px;
+        font-size: 12px;
+        margin: 6px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .auth-container {
+        padding: 10px;
+        align-items: flex-start;
+      }
+      
+      .auth-wrapper {
+        max-width: 100%;
+      }
+      
+      .auth-card {
+        padding: 15px;
+        margin: 5px 0;
+      }
+      
+      .auth-title {
+        font-size: 24px;
+      }
+      
+      .tab-button {
+        padding: 10px 15px;
+        font-size: 13px;
+      }
+      
+      .verification-info {
+        padding: 12px;
+      }
+      
+      .verification-input {
+        font-size: 18px;
+        letter-spacing: 4px;
+        padding: 12px;
+      }
+      
+      .email-highlight {
+        font-size: 11px;
+        word-break: break-all;
+      }
+    }
 })
 export class AuthComponent implements OnInit, OnDestroy {
   currentMode: 'login' | 'register' | 'verify' = 'login';
