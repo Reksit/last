@@ -44,15 +44,25 @@ export class TaskReminderService {
 
   private checkTasksForReminders(tasks: Task[]): void {
     const now = new Date();
-    const oneDayFromNow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
     tasks.forEach(task => {
       if (task.dueDate && task.id && !task.reminderSent) {
+        // Parse the due date properly, considering it might be a string from API
         const dueDate = new Date(task.dueDate);
         
-        // Check if task is due within 24 hours
-        if (dueDate <= oneDayFromNow && dueDate > now) {
-          const hoursUntilDue = Math.ceil((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60));
+        // Check if the due date is valid
+        if (isNaN(dueDate.getTime())) {
+          console.error('Invalid due date for task:', task.title);
+          return;
+        }
+        
+        // Calculate time difference in milliseconds
+        const timeDifference = dueDate.getTime() - now.getTime();
+        
+        // Check if task is due within 24 hours and not overdue
+        if (timeDifference > 0 && timeDifference <= 24 * 60 * 60 * 1000) {
+          // Calculate hours more accurately
+          const hoursUntilDue = Math.max(1, Math.ceil(timeDifference / (1000 * 60 * 60)));
           
           // Show popup notification
           this.notificationService.addNotification({
@@ -70,11 +80,22 @@ export class TaskReminderService {
   }
 
   private sendEmailReminder(task: Task, hoursUntilDue: number): void {
+    // Format the due date properly for display
+    const dueDate = new Date(task.dueDate!);
+    const formattedDueDate = dueDate.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+
     const reminderData = {
       taskId: task.id,
       taskTitle: task.title,
       taskDescription: task.description,
-      dueDate: task.dueDate,
+      dueDate: formattedDueDate,
       hoursUntilDue: hoursUntilDue
     };
 

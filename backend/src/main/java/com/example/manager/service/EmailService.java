@@ -108,6 +108,15 @@ public class EmailService {
     }
 
     private String buildTaskReminderEmailBody(String username, String taskTitle, String taskDescription, String dueDate, Integer hoursUntilDue) {
+        String timeMessage;
+        if (hoursUntilDue <= 1) {
+            timeMessage = "less than 1 hour";
+        } else if (hoursUntilDue == 1) {
+            timeMessage = "1 hour";
+        } else {
+            timeMessage = hoursUntilDue + " hours";
+        }
+
         return String.format(
             "⏰ Task Reminder - TaskManager Pro\n\n" +
             "Hello %s,\n\n" +
@@ -116,14 +125,14 @@ public class EmailService {
             "Title: %s\n" +
             "Description: %s\n" +
             "Due Date: %s\n" +
-            "⏰ Time Remaining: %d hour(s)\n\n" +
+            "⏰ Time Remaining: %s\n\n" +
             "🚨 Don't forget to complete this task before the deadline!\n\n" +
             "You can manage your tasks by logging into TaskManager Pro.\n\n" +
             "Stay productive! 💪\n\n" +
             "Best regards,\n" +
             "The TaskManager Pro Team\n" +
             "taskmanagerai@gmail.com",
-            username, taskTitle, taskDescription, dueDate, hoursUntilDue
+            username, taskTitle, taskDescription, dueDate, timeMessage
         );
     }
 }

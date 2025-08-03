@@ -106,12 +106,18 @@ public class TaskController {
             String dueDate = reminderData.get("dueDate").toString();
             Integer hoursUntilDue = Integer.valueOf(reminderData.get("hoursUntilDue").toString());
             
+            // Validate the hours until due to prevent negative or invalid values
+            if (hoursUntilDue < 0) {
+                hoursUntilDue = 0;
+            }
+            
             // Mark task as reminder sent
             taskService.markReminderSent(taskId);
             
             emailService.sendTaskReminder(taskTitle, taskDescription, dueDate, hoursUntilDue);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
+            System.err.println("Error sending task reminder: " + e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

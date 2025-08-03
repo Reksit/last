@@ -393,7 +393,12 @@ export class CreateTaskComponent {
 
     // Convert date string to Date object if provided
     if (this.dueDateString) {
-      this.taskData.dueDate = new Date(this.dueDateString);
+      // Create date object and ensure it's in the correct timezone
+      const localDate = new Date(this.dueDateString);
+      // Adjust for timezone offset to ensure the date is stored correctly
+      this.taskData.dueDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+    } else {
+      this.taskData.dueDate = undefined;
     }
 
     this.taskService.createTask(this.taskData).subscribe({
