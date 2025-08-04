@@ -67,6 +67,7 @@ public class TaskService {
         task.setDescription(taskRequest.getDescription());
         task.setPriority(taskRequest.getPriority());
         task.setDueDate(taskRequest.getDueDate());
+        task.setAiRoadmap(taskRequest.getAiRoadmap());
         task.setUser(user);
 
         Task savedTask = taskRepository.save(task);
@@ -82,6 +83,9 @@ public class TaskService {
         task.setDescription(taskRequest.getDescription());
         task.setPriority(taskRequest.getPriority());
         task.setDueDate(taskRequest.getDueDate());
+        if (taskRequest.getAiRoadmap() != null) {
+            task.setAiRoadmap(taskRequest.getAiRoadmap());
+        }
 
         Task updatedTask = taskRepository.save(task);
         return new TaskResponse(updatedTask);

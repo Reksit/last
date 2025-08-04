@@ -20,6 +20,8 @@ public class TaskRequest {
     
     private LocalDateTime dueDate;
 
+    private String aiRoadmap;
+
     // Constructors
     public TaskRequest() {}
 
@@ -61,5 +63,13 @@ public class TaskRequest {
 
     public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getAiRoadmap() {
+        return aiRoadmap;
+    }
+
+    public void setAiRoadmap(String aiRoadmap) {
+        this.aiRoadmap = aiRoadmap;
     }
 }

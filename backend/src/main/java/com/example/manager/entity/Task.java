@@ -48,6 +48,9 @@ public class Task {
     @Column(name = "reminder_sent", nullable = false)
     private boolean reminderSent = false;
 
+    @Column(name = "ai_roadmap", columnDefinition = "TEXT")
+    private String aiRoadmap;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -141,6 +144,14 @@ public class Task {
 
     public void setReminderSent(boolean reminderSent) {
         this.reminderSent = reminderSent;
+    }
+
+    public String getAiRoadmap() {
+        return aiRoadmap;
+    }
+
+    public void setAiRoadmap(String aiRoadmap) {
+        this.aiRoadmap = aiRoadmap;
     }
 
     // Enums

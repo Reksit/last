@@ -16,6 +16,8 @@ public class TaskResponse {
     private Long userId;
     private boolean reminderSent;
 
+    private String aiRoadmap;
+
     // Constructors
     public TaskResponse() {}
 
@@ -30,6 +32,7 @@ public class TaskResponse {
         this.updatedAt = task.getUpdatedAt();
         this.userId = task.getUser().getId();
         this.reminderSent = task.isReminderSent();
+        this.aiRoadmap = task.getAiRoadmap();
     }
 
     // Getters and Setters
@@ -111,5 +114,13 @@ public class TaskResponse {
 
     public void setReminderSent(boolean reminderSent) {
         this.reminderSent = reminderSent;
+    }
+
+    public String getAiRoadmap() {
+        return aiRoadmap;
+    }
+
+    public void setAiRoadmap(String aiRoadmap) {
+        this.aiRoadmap = aiRoadmap;
     }
 }
