@@ -225,6 +225,11 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       overflow-y: auto;
     }
 
+    .auth-container.verification-mode {
+      align-items: flex-start;
+      padding-top: 20px;
+    }
+
     .auth-container::before {
       content: '';
       position: fixed;
@@ -249,6 +254,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       position: relative;
       z-index: 10;
       margin: auto;
+      transition: all 0.3s ease;
     }
 
     .auth-card {
@@ -257,8 +263,23 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       background: rgba(30, 30, 45, 0.95);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      max-height: none;
-      overflow: visible;
+      max-height: 90vh;
+      overflow-y: auto;
+      transition: all 0.3s ease;
+    }
+
+    .auth-card::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .auth-card::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    .auth-card::-webkit-scrollbar-thumb {
+      background: rgba(100, 255, 218, 0.3);
+      border-radius: 10px;
     }
 
     .auth-header {
@@ -307,76 +328,81 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
 
     .verification-info {
       text-align: center;
-      margin-bottom: 25px;
-      padding: 15px;
+      margin-bottom: 20px;
+      padding: 12px;
       background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, rgba(0, 188, 212, 0.1) 100%);
       border-radius: 25px;
       border: 2px solid rgba(100, 255, 218, 0.2);
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .verification-icon {
-      font-size: 40px;
-      margin-bottom: 10px;
+      font-size: 32px;
+      margin-bottom: 8px;
     }
 
     .verification-info h3 {
       color: #fff;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-weight: 600;
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .verification-info p {
       color: #b0b0b0;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       line-height: 1.5;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .email-highlight {
       background: rgba(100, 255, 218, 0.2);
-      padding: 6px 12px;
+      padding: 4px 8px;
       border-radius: 15px;
       color: #64ffda !important;
       font-weight: 600;
-      margin: 8px 0;
+      margin: 6px 0;
       word-break: break-all;
-      font-size: 13px;
+      font-size: 12px;
+      display: inline-block;
+      max-width: 100%;
+      overflow-wrap: break-word;
     }
 
     .verification-note {
-      font-size: 13px;
+      font-size: 12px;
       font-style: italic;
       color: #ccc !important;
     }
 
     .verification-sender {
-      font-size: 11px;
+      font-size: 10px;
       color: #888 !important;
-      margin-top: 10px;
-      padding-top: 8px;
+      margin-top: 8px;
+      padding-top: 6px;
       border-top: 1px solid rgba(255,255,255,0.1);
     }
 
     .verification-input {
       text-align: center;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 600;
-      letter-spacing: 6px;
-      padding: 15px;
+      letter-spacing: 4px;
+      padding: 12px;
     }
 
     .resend-section {
       text-align: center;
-      margin-top: 15px;
-      padding-top: 15px;
+      margin-top: 12px;
+      padding-top: 12px;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .resend-text {
       color: #b0b0b0;
-      font-size: 13px;
-      margin-bottom: 8px;
+      font-size: 12px;
+      margin-bottom: 6px;
     }
 
     .resend-btn {
@@ -386,11 +412,11 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       font-weight: 600;
       cursor: pointer;
       text-decoration: underline;
-      font-size: 13px;
+      font-size: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 4px;
       margin: 0 auto;
     }
 
@@ -453,44 +479,45 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
     @media (max-height: 700px) {
       .auth-container {
         align-items: flex-start;
-        padding: 10px;
+        padding: 15px 20px;
       }
       
       .auth-card {
-        padding: 20px;
-        margin: 10px 0;
+        padding: 25px;
+        margin: 0;
+        max-height: 85vh;
       }
       
       .verification-info {
-        padding: 10px;
-        margin-bottom: 15px;
+        padding: 8px;
+        margin-bottom: 12px;
       }
       
       .verification-icon {
-        font-size: 30px;
-        margin-bottom: 8px;
-      }
-      
-      .verification-info h3 {
-        font-size: 18px;
+        font-size: 28px;
         margin-bottom: 6px;
       }
       
-      .verification-info p {
-        font-size: 12px;
+      .verification-info h3 {
+        font-size: 16px;
         margin-bottom: 4px;
       }
       
+      .verification-info p {
+        font-size: 11px;
+        margin-bottom: 3px;
+      }
+      
       .email-highlight {
-        padding: 4px 8px;
-        font-size: 12px;
-        margin: 6px 0;
+        padding: 3px 6px;
+        font-size: 11px;
+        margin: 4px 0;
       }
     }
 
     @media (max-width: 480px) {
       .auth-container {
-        padding: 10px;
+        padding: 10px 15px;
         align-items: flex-start;
       }
       
@@ -499,8 +526,9 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       }
       
       .auth-card {
-        padding: 15px;
-        margin: 5px 0;
+        padding: 20px;
+        margin: 0;
+        max-height: 90vh;
       }
       
       .auth-title {
@@ -513,18 +541,81 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       }
       
       .verification-info {
-        padding: 12px;
+        padding: 10px;
+        margin-bottom: 15px;
       }
       
       .verification-input {
-        font-size: 18px;
-        letter-spacing: 4px;
-        padding: 12px;
+        font-size: 16px;
+        letter-spacing: 3px;
+        padding: 10px;
       }
       
       .email-highlight {
-        font-size: 11px;
+        font-size: 10px;
         word-break: break-all;
+        padding: 2px 4px;
+      }
+    }
+
+    @media (max-height: 600px) {
+      .auth-container {
+        padding: 10px;
+      }
+      
+      .auth-card {
+        padding: 15px;
+        max-height: 95vh;
+      }
+      
+      .auth-header {
+        margin-bottom: 20px;
+      }
+      
+      .auth-title {
+        font-size: 22px;
+      }
+      
+      .verification-info {
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      
+      .verification-icon {
+        font-size: 24px;
+        margin-bottom: 4px;
+      }
+      
+      .verification-info h3 {
+        font-size: 14px;
+        margin-bottom: 3px;
+      }
+      
+      .verification-info p {
+        font-size: 10px;
+        margin-bottom: 2px;
+      }
+      
+      .email-highlight {
+        font-size: 9px;
+        padding: 2px 4px;
+        margin: 2px 0;
+      }
+      
+      .verification-sender {
+        font-size: 8px;
+        margin-top: 4px;
+        padding-top: 4px;
+      }
+      
+      .form-group {
+        margin-bottom: 12px;
+      }
+      
+      .auth-btn {
+        padding: 10px;
+        font-size: 14px;
+        margin-top: 10px;
       }
     }
   `]
