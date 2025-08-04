@@ -393,8 +393,9 @@ export class EditTaskComponent implements OnInit {
       next: (task) => {
         this.taskData = task;
         if (task.dueDate) {
+          // Parse the date correctly for the datetime-local input
           const dueDate = new Date(task.dueDate);
-          dueDate.setMinutes(dueDate.getMinutes() - dueDate.getTimezoneOffset());
+          // Format for datetime-local input (YYYY-MM-DDTHH:MM)
           this.dueDateString = dueDate.toISOString().slice(0, 16);
         }
         this.isLoading = false;
@@ -415,7 +416,10 @@ export class EditTaskComponent implements OnInit {
 
     // Convert date string to Date object if provided
     if (this.dueDateString) {
-      this.taskData.dueDate = new Date(this.dueDateString);
+      // Create date object and ensure it's in the correct timezone
+      const localDate = new Date(this.dueDateString);
+      // Adjust for timezone offset to ensure the date is stored correctly
+      this.taskData.dueDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
     } else {
       this.taskData.dueDate = undefined;
     }
