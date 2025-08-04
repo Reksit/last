@@ -99,6 +99,15 @@ import { User } from '../../models/user.model';
                       Mark Complete
                     </button>
                     <button 
+                      class="btn-sm btn-ai" 
+                      (click)="viewRoadmap(task)"
+                      [disabled]="isLoading"
+                      *ngIf="task.aiRoadmap"
+                      title="View AI Roadmap"
+                    >
+                      🤖 Roadmap
+                    </button>
+                    <button 
                       class="btn-sm btn-info" 
                       (click)="editTask(task.id!)"
                       [disabled]="isLoading"
@@ -162,6 +171,15 @@ import { User } from '../../models/user.model';
                       Mark Pending
                     </button>
                     <button 
+                      class="btn-sm btn-ai" 
+                      (click)="viewRoadmap(task)"
+                      [disabled]="isLoading"
+                      *ngIf="task.aiRoadmap"
+                      title="View AI Roadmap"
+                    >
+                      🤖 Roadmap
+                    </button>
+                    <button 
                       class="btn-sm btn-danger" 
                       (click)="deleteTask(task.id!)"
                       [disabled]="isLoading"
@@ -176,6 +194,32 @@ import { User } from '../../models/user.model';
         </div>
       </div>
 
+      <!-- AI Roadmap Modal -->
+      <div class="roadmap-modal" *ngIf="showRoadmapModal" (click)="closeRoadmapModal()">
+        <div class="roadmap-content" (click)="$event.stopPropagation()">
+          <div class="roadmap-header">
+            <h2>🤖 AI Generated Roadmap</h2>
+            <button class="close-btn" (click)="closeRoadmapModal()">×</button>
+          </div>
+          
+          <div class="roadmap-body" *ngIf="selectedTaskRoadmap">
+            <div class="task-info">
+              <h3>{{ selectedTask?.title }}</h3>
+              <p>{{ selectedTask?.description }}</p>
+            </div>
+            
+            <div class="roadmap-text">
+              <pre>{{ selectedTaskRoadmap }}</pre>
+            </div>
+          </div>
+          
+          <div class="roadmap-actions">
+            <button class="btn-secondary" (click)="closeRoadmapModal()">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
       <div *ngIf="isLoading" class="loading-overlay">
         <div class="loading-spinner">
           <div class="spinner"></div>
@@ -389,6 +433,136 @@ import { User } from '../../models/user.model';
       margin-right: 5px;
     }
 
+    .btn-ai {
+      background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
+      color: white;
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+
+    .btn-ai:hover {
+      background: linear-gradient(135deg, #8e24aa 0%, #5e35b1 100%);
+      transform: translateY(-1px);
+    }
+
+    .roadmap-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .roadmap-content {
+      background: rgba(30, 30, 45, 0.98);
+      border-radius: 15px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .roadmap-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .roadmap-header h2 {
+      color: #fff;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .roadmap-body {
+      padding: 30px;
+    }
+
+    .task-info {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(100, 255, 218, 0.1);
+      border-radius: 8px;
+      border-left: 4px solid #64ffda;
+    }
+
+    .task-info h3 {
+      color: #64ffda;
+      margin: 0 0 8px 0;
+      font-size: 18px;
+    }
+
+    .task-info p {
+      color: #e0e0e0;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .roadmap-text {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      border-left: 4px solid #9c27b0;
+    }
+
+    .roadmap-text pre {
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin: 0;
+    }
+
+    .roadmap-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: flex-end;
+      padding: 20px 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .roadmap-actions button {
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      min-width: 120px;
+    }
     @media (max-width: 768px) {
       .dashboard-header {
         flex-direction: column;
@@ -403,6 +577,30 @@ import { User } from '../../models/user.model';
       .tasks-container {
         grid-template-columns: 1fr;
       }
+
+      .roadmap-modal {
+        padding: 10px;
+      }
+
+      .roadmap-content {
+        max-height: 90vh;
+      }
+
+      .roadmap-header {
+        padding: 15px 20px;
+      }
+
+      .roadmap-body {
+        padding: 20px;
+      }
+
+      .roadmap-actions {
+        padding: 15px 20px;
+      }
+
+      .roadmap-actions button {
+        width: 100%;
+      }
     }
   `]
 })
@@ -411,6 +609,9 @@ export class DashboardComponent implements OnInit {
   pendingTasks: Task[] = [];
   completedTasks: Task[] = [];
   isLoading = false;
+  showRoadmapModal = false;
+  selectedTask: Task | null = null;
+  selectedTaskRoadmap: string | null = null;
 
   constructor(
     private authService: AuthService,
@@ -518,5 +719,17 @@ export class DashboardComponent implements OnInit {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/auth']);
+  }
+
+  viewRoadmap(task: Task): void {
+    this.selectedTask = task;
+    this.selectedTaskRoadmap = task.aiRoadmap || null;
+    this.showRoadmapModal = true;
+  }
+
+  closeRoadmapModal(): void {
+    this.showRoadmapModal = false;
+    this.selectedTask = null;
+    this.selectedTaskRoadmap = null;
   }
 }

@@ -219,7 +219,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       align-items: center;
       justify-content: center;
       padding: 20px;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #000000 100%);
       position: relative;
       overflow: hidden;
       overflow-y: auto;
@@ -237,15 +237,33 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       left: 0;
       width: 100%;
       height: 100%;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="white" opacity="0.8"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="30" r="0.5" fill="white" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="4s" repeatCount="indefinite"/></circle><circle cx="40" cy="60" r="0.8" fill="white" opacity="0.7"><animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.5s" repeatCount="indefinite"/></circle><circle cx="70" cy="80" r="0.6" fill="white" opacity="0.5"><animate attributeName="opacity" values="0.5;0.1;0.5" dur="3.5s" repeatCount="indefinite"/></circle><circle cx="10" cy="70" r="0.4" fill="white" opacity="0.8"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/></circle><circle cx="90" cy="10" r="0.7" fill="white" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.8s" repeatCount="indefinite"/></circle><circle cx="30" cy="90" r="0.5" fill="white" opacity="0.7"><animate attributeName="opacity" values="0.7;0.1;0.7" dur="3.2s" repeatCount="indefinite"/></circle><circle cx="60" cy="40" r="0.6" fill="white" opacity="0.5"><animate attributeName="opacity" values="0.5;0.3;0.5" dur="2.7s" repeatCount="indefinite"/></circle></svg>') repeat;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(100, 255, 218, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(156, 39, 176, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="0.8" fill="white" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="4s" repeatCount="indefinite"/></circle><circle cx="80" cy="30" r="0.4" fill="white" opacity="0.4"><animate attributeName="opacity" values="0.4;0.1;0.4" dur="5s" repeatCount="indefinite"/></circle><circle cx="40" cy="60" r="0.6" fill="white" opacity="0.5"><animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/></circle><circle cx="70" cy="80" r="0.5" fill="white" opacity="0.3"><animate attributeName="opacity" values="0.3;0.1;0.3" dur="4.5s" repeatCount="indefinite"/></circle><circle cx="10" cy="70" r="0.3" fill="white" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.5s" repeatCount="indefinite"/></circle><circle cx="90" cy="10" r="0.5" fill="white" opacity="0.4"><animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.5s" repeatCount="indefinite"/></circle><circle cx="30" cy="90" r="0.4" fill="white" opacity="0.5"><animate attributeName="opacity" values="0.5;0.1;0.5" dur="4s" repeatCount="indefinite"/></circle><circle cx="60" cy="40" r="0.4" fill="white" opacity="0.3"><animate attributeName="opacity" values="0.3;0.1;0.3" dur="3.2s" repeatCount="indefinite"/></circle></svg>') repeat;
       pointer-events: none;
       z-index: 1;
-      animation: twinkle 10s linear infinite;
+      animation: twinkle 15s ease-in-out infinite;
     }
 
     @keyframes twinkle {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+      0%, 100% { 
+        transform: translateY(0px) scale(1);
+        opacity: 1;
+      }
+      25% { 
+        transform: translateY(-5px) scale(1.02);
+        opacity: 0.8;
+      }
+      50% { 
+        transform: translateY(-10px) scale(1.05);
+        opacity: 0.6;
+      }
+      75% { 
+        transform: translateY(-5px) scale(1.02);
+        opacity: 0.8;
+      }
     }
 
     .auth-wrapper {
@@ -254,18 +272,66 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       position: relative;
       z-index: 10;
       margin: auto;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: slideInUp 0.8s ease-out;
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .auth-card {
       padding: 40px;
       text-align: center;
-      background: rgba(30, 30, 45, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: 
+        linear-gradient(145deg, rgba(30, 30, 45, 0.98) 0%, rgba(20, 20, 35, 0.95) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(100, 255, 218, 0.2);
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(100, 255, 218, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
       max-height: 90vh;
       overflow-y: auto;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        #64ffda 25%, 
+        #9c27b0 50%, 
+        #64ffda 75%, 
+        transparent 100%);
+      border-radius: 15px 15px 0 0;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .auth-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(100, 255, 218, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
 
     .auth-card::-webkit-scrollbar {
@@ -284,18 +350,31 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
 
     .auth-header {
       margin-bottom: 30px;
+      position: relative;
     }
 
     .auth-title {
       font-size: 28px;
       font-weight: 700;
-      color: #fff;
+      background: linear-gradient(135deg, #64ffda 0%, #9c27b0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       margin-bottom: 8px;
+      text-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px rgba(100, 255, 218, 0.3)); }
+      to { filter: drop-shadow(0 0 15px rgba(100, 255, 218, 0.6)); }
     }
 
     .auth-subtitle {
       color: #b0b0b0;
       font-size: 16px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
     }
 
     .auth-tabs {
@@ -303,8 +382,11 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       margin-bottom: 30px;
       border-radius: 25px;
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(100, 255, 218, 0.3);
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
       flex-wrap: wrap;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .tab-button {
@@ -313,17 +395,43 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
 
       padding: 12px 20px;
       border: none;
-      background: rgba(255, 255, 255, 0.1);
+      background: transparent;
       color: #b0b0b0;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       font-size: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tab-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .tab-button:hover::before {
+      left: 100%;
+    }
+
+    .tab-button:hover {
+      color: #64ffda;
+      background: rgba(100, 255, 218, 0.05);
     }
 
     .tab-button.active {
-      background: linear-gradient(135deg, #64ffda 0%, #00bcd4 100%);
+      background: linear-gradient(135deg, #64ffda 0%, #9c27b0 100%);
       color: #1a1a2e;
+      box-shadow: 
+        0 4px 15px rgba(100, 255, 218, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
     }
 
     .verification-info {
@@ -443,7 +551,9 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
-      color: #fff;
+      color: #e0e0e0;
+      font-size: 14px;
+      letter-spacing: 0.3px;
     }
 
     .auth-btn {
@@ -456,11 +566,42 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       align-items: center;
       justify-content: center;
       gap: 10px;
+      background: linear-gradient(135deg, #64ffda 0%, #9c27b0 100%);
+      border: none;
+      border-radius: 25px;
+      color: #1a1a2e;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+    }
+
+    .auth-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .auth-btn:hover::before {
+      left: 100%;
+    }
+
+    .auth-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(100, 255, 218, 0.4);
     }
 
     .auth-btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 2px 8px rgba(100, 255, 218, 0.2);
     }
 
     .password-requirements {
@@ -468,8 +609,9 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
     }
 
     .password-hint {
-      color: #b0b0b0;
+      color: #ff6b6b;
       font-size: 12px;
+      font-weight: 500;
     }
 
     @keyframes fadeIn {

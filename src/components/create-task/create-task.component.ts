@@ -675,6 +675,11 @@ export class CreateTaskComponent {
     // Close the modal first
     this.closeRoadmapModal();
     
+    // Add the roadmap to the task data
+    if (this.generatedRoadmap) {
+      this.taskData.aiRoadmap = this.generatedRoadmap.roadmap;
+    }
+    
     // Create the task
     this.onSubmit();
   }

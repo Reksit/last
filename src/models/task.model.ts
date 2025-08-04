@@ -9,6 +9,7 @@ export interface Task {
   updatedAt?: Date;
   userId?: number;
   reminderSent?: boolean;
+  aiRoadmap?: string;
 }
 
 export interface CreateTaskRequest {
@@ -16,6 +17,7 @@ export interface CreateTaskRequest {
   description: string;
   priority: 'HIGH' | 'MEDIUM' | 'LOW';
   dueDate?: Date;
+  aiRoadmap?: string;
 }
 
 export interface RoadmapRequest {
