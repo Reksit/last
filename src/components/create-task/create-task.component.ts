@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskService } from '../../services/task.service';
-import { CreateTaskRequest } from '../../models/task.model';
+import { CreateTaskRequest, RoadmapRequest, RoadmapResponse } from '../../models/task.model';
 
 @Component({
   selector: 'app-create-task',
@@ -105,6 +105,19 @@ import { CreateTaskRequest } from '../../models/task.model';
                 {{ successMessage }}
               </div>
 
+              <div class="ai-section" *ngIf="!isLoading">
+                <button
+                  type="button"
+                  class="btn-ai"
+                  (click)="generateRoadmap()"
+                  [disabled]="!taskData.title || !taskData.description || isGeneratingRoadmap"
+                >
+                  <span *ngIf="isGeneratingRoadmap" class="spinner"></span>
+                  <span class="ai-icon" *ngIf="!isGeneratingRoadmap">🤖</span>
+                  {{ isGeneratingRoadmap ? 'Generating AI Roadmap...' : 'Generate AI Roadmap' }}
+                </button>
+              </div>
+
               <div class="form-actions">
                 <button
                   type="button"
@@ -124,6 +137,35 @@ import { CreateTaskRequest } from '../../models/task.model';
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+
+        <!-- AI Roadmap Modal -->
+        <div class="roadmap-modal" *ngIf="showRoadmapModal" (click)="closeRoadmapModal()">
+          <div class="roadmap-content" (click)="$event.stopPropagation()">
+            <div class="roadmap-header">
+              <h2>🤖 AI Generated Roadmap</h2>
+              <button class="close-btn" (click)="closeRoadmapModal()">×</button>
+            </div>
+            
+            <div class="roadmap-body" *ngIf="generatedRoadmap">
+              <div class="roadmap-text">
+                <pre>{{ generatedRoadmap.roadmap }}</pre>
+              </div>
+              
+              <div class="roadmap-duration" *ngIf="generatedRoadmap.estimatedDuration">
+                <strong>Estimated Duration:</strong> {{ generatedRoadmap.estimatedDuration }}
+              </div>
+            </div>
+            
+            <div class="roadmap-actions">
+              <button class="btn-secondary" (click)="closeRoadmapModal()">
+                Ignore
+              </button>
+              <button class="btn-primary" (click)="acceptRoadmapAndCreateTask()">
+                Accept & Create Task
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -322,6 +364,151 @@ import { CreateTaskRequest } from '../../models/task.model';
       transform: translateY(-2px);
     }
 
+    .ai-section {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .btn-ai {
+      background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
+      border: none;
+      border-radius: 25px;
+      padding: 12px 25px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 auto;
+      min-width: 200px;
+    }
+
+    .btn-ai:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(156, 39, 176, 0.4);
+    }
+
+    .btn-ai:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .ai-icon {
+      font-size: 18px;
+    }
+
+    .roadmap-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .roadmap-content {
+      background: rgba(30, 30, 45, 0.98);
+      border-radius: 15px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .roadmap-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .roadmap-header h2 {
+      color: #fff;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .roadmap-body {
+      padding: 30px;
+    }
+
+    .roadmap-text {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-left: 4px solid #9c27b0;
+    }
+
+    .roadmap-text pre {
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin: 0;
+    }
+
+    .roadmap-duration {
+      background: rgba(156, 39, 176, 0.1);
+      border: 1px solid rgba(156, 39, 176, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      color: #e0e0e0;
+      font-size: 14px;
+    }
+
+    .roadmap-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: flex-end;
+      padding: 20px 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .roadmap-actions button {
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      min-width: 120px;
+    }
+
     .error-message {
       color: #ff6b6b;
       font-size: 14px;
@@ -357,6 +544,31 @@ import { CreateTaskRequest } from '../../models/task.model';
       .form-actions button {
         width: 100%;
       }
+
+      .roadmap-modal {
+        padding: 10px;
+      }
+
+      .roadmap-content {
+        max-height: 90vh;
+      }
+
+      .roadmap-header {
+        padding: 15px 20px;
+      }
+
+      .roadmap-body {
+        padding: 20px;
+      }
+
+      .roadmap-actions {
+        flex-direction: column;
+        padding: 15px 20px;
+      }
+
+      .roadmap-actions button {
+        width: 100%;
+      }
     }
   `]
 })
@@ -370,6 +582,9 @@ export class CreateTaskComponent {
   dueDateString = '';
   minDate = '';
   isLoading = false;
+  isGeneratingRoadmap = false;
+  showRoadmapModal = false;
+  generatedRoadmap: RoadmapResponse | null = null;
   errorMessage = '';
   successMessage = '';
 
@@ -420,5 +635,47 @@ export class CreateTaskComponent {
 
   goBack(): void {
     this.router.navigate(['/dashboard']);
+  }
+
+  generateRoadmap(): void {
+    if (!this.taskData.title || !this.taskData.description) {
+      this.errorMessage = 'Please fill in task title and description first.';
+      return;
+    }
+
+    this.isGeneratingRoadmap = true;
+    this.errorMessage = '';
+
+    const roadmapRequest: RoadmapRequest = {
+      title: this.taskData.title,
+      description: this.taskData.description,
+      timePeriod: this.dueDateString ? `Due: ${new Date(this.dueDateString).toLocaleDateString()}` : undefined
+    };
+
+    this.taskService.generateRoadmap(roadmapRequest).subscribe({
+      next: (response) => {
+        this.isGeneratingRoadmap = false;
+        this.generatedRoadmap = response;
+        this.showRoadmapModal = true;
+      },
+      error: (error) => {
+        this.isGeneratingRoadmap = false;
+        this.errorMessage = 'Failed to generate roadmap. Please try again.';
+        console.error('Roadmap generation error:', error);
+      }
+    });
+  }
+
+  closeRoadmapModal(): void {
+    this.showRoadmapModal = false;
+    this.generatedRoadmap = null;
+  }
+
+  acceptRoadmapAndCreateTask(): void {
+    // Close the modal first
+    this.closeRoadmapModal();
+    
+    // Create the task
+    this.onSubmit();
   }
 }

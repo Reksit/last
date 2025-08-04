@@ -2,8 +2,11 @@ package com.example.manager.controller;
 
 import com.example.manager.dto.TaskRequest;
 import com.example.manager.dto.TaskResponse;
+import com.example.manager.dto.RoadmapRequest;
+import com.example.manager.dto.RoadmapResponse;
 import com.example.manager.service.TaskService;
 import com.example.manager.service.EmailService;
+import com.example.manager.service.GeminiAIService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,9 @@ public class TaskController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private GeminiAIService geminiAIService;
 
     @GetMapping
     public ResponseEntity<List<TaskResponse>> getAllTasks() {
@@ -118,6 +124,17 @@ public class TaskController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             System.err.println("Error sending task reminder: " + e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/generate-roadmap")
+    public ResponseEntity<RoadmapResponse> generateRoadmap(@Valid @RequestBody RoadmapRequest roadmapRequest) {
+        try {
+            RoadmapResponse roadmap = geminiAIService.generateRoadmap(roadmapRequest);
+            return ResponseEntity.ok(roadmap);
+        } catch (Exception e) {
+            System.err.println("Error generating roadmap: " + e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

@@ -382,44 +382,6 @@ import { User } from '../../models/user.model';
       z-index: 1000;
     }
 
-    //button styles
-    .create-task-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 24px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffffff;
-  background: linear-gradient(145deg, #64ffda, #00bcd4); /* Beveled gradient */
-  border: none;
-  border-radius: 30px; /* Bevel round rectangle */
-  box-shadow:
-    inset 2px 2px 4px rgba(255, 255, 255, 0.15),
-    inset -2px -2px 4px rgba(0, 0, 0, 0.1),
-    0 4px 10px rgba(0, 0, 0, 0.15); /* 3D bevel + base shadow */
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #1a1a2e;
-}
-
-.create-task-btn:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    inset 1px 1px 2px rgba(255, 255, 255, 0.1),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.05),
-    0 6px 16px rgba(0, 0, 0, 0.25); /* Elevated shadow on hover */
-  background: linear-gradient(145deg, #4ecdc4, #26a69a); /* Slightly lighter bevel */
-}
-
-.plus-icon {
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 1;
-}
-
-
-    //end
     .icon-plus::before {
       content: '+';
       font-size: 18px;

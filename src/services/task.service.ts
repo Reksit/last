@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Task, CreateTaskRequest } from '../models/task.model';
+import { Task, CreateTaskRequest, RoadmapRequest, RoadmapResponse } from '../models/task.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -49,6 +49,10 @@ export class TaskService {
 
   getCompletedTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.apiUrl}/completed`, this.getHttpOptions());
+  }
+
+  generateRoadmap(request: RoadmapRequest): Observable<RoadmapResponse> {
+    return this.http.post<RoadmapResponse>(`${this.apiUrl}/generate-roadmap`, request, this.getHttpOptions());
   }
 
   private getHttpOptions() {

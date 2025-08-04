@@ -17,3 +17,15 @@ export interface CreateTaskRequest {
   priority: 'HIGH' | 'MEDIUM' | 'LOW';
   dueDate?: Date;
 }
+
+export interface RoadmapRequest {
+  title: string;
+  description: string;
+  timePeriod?: string;
+}
+
+export interface RoadmapResponse {
+  roadmap: string;
+  steps: string[];
+  estimatedDuration: string;
+}

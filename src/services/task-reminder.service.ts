@@ -47,8 +47,8 @@ export class TaskReminderService {
 
     tasks.forEach(task => {
       if (task.dueDate && task.id && !task.reminderSent) {
-        // Parse the due date properly, considering it might be a string from API
-        const dueDate = new Date(task.dueDate);
+        // Parse the due date properly - handle both string and Date objects
+        const dueDate = typeof task.dueDate === 'string' ? new Date(task.dueDate) : new Date(task.dueDate);
         
         // Check if the due date is valid
         if (isNaN(dueDate.getTime())) {
@@ -59,10 +59,15 @@ export class TaskReminderService {
         // Calculate time difference in milliseconds
         const timeDifference = dueDate.getTime() - now.getTime();
         
-        // Check if task is due within 24 hours and not overdue
-        if (timeDifference > 0 && timeDifference <= 24 * 60 * 60 * 1000) {
-          // Calculate hours more accurately
-          const hoursUntilDue = Math.max(1, Math.ceil(timeDifference / (1000 * 60 * 60)));
+        // Check if task is due within 24 hours (86400000 ms) and not overdue
+        if (timeDifference > 0 && timeDifference <= 86400000) {
+          // Calculate hours until due more accurately
+          let hoursUntilDue = Math.floor(timeDifference / 3600000); // 3600000 ms = 1 hour
+          
+          // Ensure minimum of 1 hour for display purposes
+          if (hoursUntilDue < 1) {
+            hoursUntilDue = 1;
+          }
           
           // Show popup notification
           this.notificationService.addNotification({
@@ -80,8 +85,15 @@ export class TaskReminderService {
   }
 
   private sendEmailReminder(task: Task, hoursUntilDue: number): void {
-    // Format the due date properly for display
-    const dueDate = new Date(task.dueDate!);
+    // Format the due date properly for display - handle both string and Date objects
+    const dueDate = typeof task.dueDate === 'string' ? new Date(task.dueDate) : new Date(task.dueDate!);
+    
+    // Validate the date before formatting
+    if (isNaN(dueDate.getTime())) {
+      console.error('Invalid due date for email reminder:', task.dueDate);
+      return;
+    }
+    
     const formattedDueDate = dueDate.toLocaleString('en-US', {
       year: 'numeric',
       month: 'short',
