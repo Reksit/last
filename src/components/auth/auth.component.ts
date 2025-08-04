@@ -238,8 +238,8 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(circle at 20% 80%, rgba(100, 255, 218, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(156, 39, 176, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(74, 144, 226, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(123, 104, 238, 0.08) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
         url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="0.8" fill="white" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="4s" repeatCount="indefinite"/></circle><circle cx="80" cy="30" r="0.4" fill="white" opacity="0.4"><animate attributeName="opacity" values="0.4;0.1;0.4" dur="5s" repeatCount="indefinite"/></circle><circle cx="40" cy="60" r="0.6" fill="white" opacity="0.5"><animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite"/></circle><circle cx="70" cy="80" r="0.5" fill="white" opacity="0.3"><animate attributeName="opacity" values="0.3;0.1;0.3" dur="4.5s" repeatCount="indefinite"/></circle><circle cx="10" cy="70" r="0.3" fill="white" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="2.5s" repeatCount="indefinite"/></circle><circle cx="90" cy="10" r="0.5" fill="white" opacity="0.4"><animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.5s" repeatCount="indefinite"/></circle><circle cx="30" cy="90" r="0.4" fill="white" opacity="0.5"><animate attributeName="opacity" values="0.5;0.1;0.5" dur="4s" repeatCount="indefinite"/></circle><circle cx="60" cy="40" r="0.4" fill="white" opacity="0.3"><animate attributeName="opacity" values="0.3;0.1;0.3" dur="3.2s" repeatCount="indefinite"/></circle></svg>') repeat;
       pointer-events: none;
@@ -356,18 +356,12 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
     .auth-title {
       font-size: 28px;
       font-weight: 700;
-      background: linear-gradient(135deg, #64ffda 0%, #9c27b0 100%);
+      background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-bottom: 8px;
-      text-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-      from { filter: drop-shadow(0 0 5px rgba(100, 255, 218, 0.3)); }
-      to { filter: drop-shadow(0 0 15px rgba(100, 255, 218, 0.6)); }
+      text-shadow: 0 0 20px rgba(74, 144, 226, 0.2);
     }
 
     .auth-subtitle {
@@ -382,7 +376,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       margin-bottom: 30px;
       border-radius: 25px;
       overflow: hidden;
-      border: 2px solid rgba(100, 255, 218, 0.3);
+      border: 2px solid rgba(74, 144, 226, 0.3);
       background: rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(10px);
       flex-wrap: wrap;
@@ -421,15 +415,15 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
     }
 
     .tab-button:hover {
-      color: #64ffda;
-      background: rgba(100, 255, 218, 0.05);
+      color: #4a90e2;
+      background: rgba(74, 144, 226, 0.05);
     }
 
     .tab-button.active {
-      background: linear-gradient(135deg, #64ffda 0%, #9c27b0 100%);
+      background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
       color: #1a1a2e;
       box-shadow: 
-        0 4px 15px rgba(100, 255, 218, 0.4),
+        0 4px 15px rgba(74, 144, 226, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
       transform: translateY(-1px);
     }
@@ -438,9 +432,9 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       text-align: center;
       margin-bottom: 20px;
       padding: 12px;
-      background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, rgba(0, 188, 212, 0.1) 100%);
+      background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(123, 104, 238, 0.1) 100%);
       border-radius: 25px;
-      border: 2px solid rgba(100, 255, 218, 0.2);
+      border: 2px solid rgba(74, 144, 226, 0.2);
       max-width: 100%;
       box-sizing: border-box;
     }
@@ -465,10 +459,10 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
     }
 
     .email-highlight {
-      background: rgba(100, 255, 218, 0.2);
+      background: rgba(74, 144, 226, 0.2);
       padding: 4px 8px;
       border-radius: 15px;
-      color: #64ffda !important;
+      color: #4a90e2 !important;
       font-weight: 600;
       margin: 6px 0;
       word-break: break-all;
@@ -488,8 +482,8 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       font-size: 10px;
       color: #888 !important;
       margin-top: 8px;
-      padding-top: 6px;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
     }
 
     .verification-input {
@@ -516,7 +510,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
     .resend-btn {
       background: none;
       border: none;
-      color: #64ffda;
+      color: #4a90e2;
       font-weight: 600;
       cursor: pointer;
       text-decoration: underline;
@@ -566,7 +560,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       align-items: center;
       justify-content: center;
       gap: 10px;
-      background: linear-gradient(135deg, #64ffda 0%, #9c27b0 100%);
+      background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
       border: none;
       border-radius: 25px;
       color: #1a1a2e;
@@ -574,7 +568,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+      box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
     }
 
     .auth-btn::before {
@@ -594,14 +588,14 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
 
     .auth-btn:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(100, 255, 218, 0.4);
+      box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
     }
 
     .auth-btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
-      box-shadow: 0 2px 8px rgba(100, 255, 218, 0.2);
+      box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
     }
 
     .password-requirements {
