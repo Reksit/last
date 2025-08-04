@@ -450,7 +450,6 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-  `]
     @media (max-height: 700px) {
       .auth-container {
         align-items: flex-start;
@@ -528,6 +527,7 @@ import { LoginRequest, RegisterRequest, VerifyEmailRequest } from '../../models/
         word-break: break-all;
       }
     }
+  `]
 })
 export class AuthComponent implements OnInit, OnDestroy {
   currentMode: 'login' | 'register' | 'verify' = 'login';
