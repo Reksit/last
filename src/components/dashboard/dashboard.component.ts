@@ -99,11 +99,10 @@ import { User } from '../../models/user.model';
                       Mark Complete
                     </button>
                     <button 
-                      class="btn-sm btn-ai" 
-                      (click)="viewRoadmap(task)"
+                      class="btn-sm btn-roadmap" 
+                      (click)="handleRoadmap(task)"
                       [disabled]="isLoading"
-                      *ngIf="task.aiRoadmap"
-                      title="View AI Roadmap"
+                      title="View or Generate AI Roadmap"
                     >
                       🤖 Roadmap
                     </button>
@@ -171,11 +170,10 @@ import { User } from '../../models/user.model';
                       Mark Pending
                     </button>
                     <button 
-                      class="btn-sm btn-ai" 
-                      (click)="viewRoadmap(task)"
+                      class="btn-sm btn-roadmap" 
+                      (click)="handleRoadmap(task)"
                       [disabled]="isLoading"
-                      *ngIf="task.aiRoadmap"
-                      title="View AI Roadmap"
+                      title="View or Generate AI Roadmap"
                     >
                       🤖 Roadmap
                     </button>
@@ -198,24 +196,45 @@ import { User } from '../../models/user.model';
       <div class="roadmap-modal" *ngIf="showRoadmapModal" (click)="closeRoadmapModal()">
         <div class="roadmap-content" (click)="$event.stopPropagation()">
           <div class="roadmap-header">
-            <h2>🤖 AI Generated Roadmap</h2>
+            <h2>🤖 {{ isGeneratingRoadmap ? 'Generating AI Roadmap...' : 'AI Generated Roadmap' }}</h2>
             <button class="close-btn" (click)="closeRoadmapModal()">×</button>
           </div>
           
-          <div class="roadmap-body" *ngIf="selectedTaskRoadmap">
+          <div class="roadmap-body">
             <div class="task-info">
               <h3>{{ selectedTask?.title }}</h3>
               <p>{{ selectedTask?.description }}</p>
             </div>
             
-            <div class="roadmap-text">
+            <div class="roadmap-text" *ngIf="selectedTaskRoadmap && !isGeneratingRoadmap">
               <pre>{{ selectedTaskRoadmap }}</pre>
+            </div>
+            
+            <div class="roadmap-generating" *ngIf="isGeneratingRoadmap">
+              <div class="loading-spinner">
+                <div class="spinner"></div>
+              </div>
+              <p>Generating AI roadmap for your task...</p>
+            </div>
+            
+            <div class="roadmap-empty" *ngIf="!selectedTaskRoadmap && !isGeneratingRoadmap">
+              <p>No roadmap available for this task.</p>
+              <button class="btn-primary" (click)="generateRoadmapForTask()">
+                Generate AI Roadmap
+              </button>
             </div>
           </div>
           
           <div class="roadmap-actions">
             <button class="btn-secondary" (click)="closeRoadmapModal()">
               Close
+            </button>
+            <button 
+              class="btn-primary" 
+              (click)="generateRoadmapForTask()"
+              *ngIf="selectedTaskRoadmap && !isGeneratingRoadmap"
+            >
+              Regenerate Roadmap
             </button>
           </div>
         </div>
@@ -445,6 +464,41 @@ import { User } from '../../models/user.model';
       transform: translateY(-1px);
     }
 
+    .btn-roadmap {
+      background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
+      color: white;
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+
+    .btn-roadmap:hover {
+      background: linear-gradient(135deg, #8e24aa 0%, #5e35b1 100%);
+      transform: translateY(-1px);
+    }
+
+    .roadmap-generating {
+      text-align: center;
+      padding: 40px 20px;
+      color: #e0e0e0;
+    }
+
+    .roadmap-generating p {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .roadmap-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #e0e0e0;
+    }
+
+    .roadmap-empty p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+
     .roadmap-modal {
       position: fixed;
       top: 0;
@@ -612,6 +666,7 @@ export class DashboardComponent implements OnInit {
   showRoadmapModal = false;
   selectedTask: Task | null = null;
   selectedTaskRoadmap: string | null = null;
+  isGeneratingRoadmap = false;
 
   constructor(
     private authService: AuthService,
@@ -721,15 +776,69 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/auth']);
   }
 
-  viewRoadmap(task: Task): void {
+  handleRoadmap(task: Task): void {
     this.selectedTask = task;
     this.selectedTaskRoadmap = task.aiRoadmap || null;
     this.showRoadmapModal = true;
+  }
+
+  generateRoadmapForTask(): void {
+    if (!this.selectedTask) return;
+
+    this.isGeneratingRoadmap = true;
+    
+    const roadmapRequest = {
+      title: this.selectedTask.title,
+      description: this.selectedTask.description,
+      timePeriod: this.selectedTask.dueDate ? 
+        `Due: ${new Date(this.selectedTask.dueDate).toLocaleDateString()}` : undefined
+    };
+
+    this.taskService.generateRoadmap(roadmapRequest).subscribe({
+      next: (response) => {
+        this.isGeneratingRoadmap = false;
+        this.selectedTaskRoadmap = response.roadmap;
+        
+        // Update the task with the new roadmap
+        if (this.selectedTask && this.selectedTask.id) {
+          const updatedTask = { ...this.selectedTask, aiRoadmap: response.roadmap };
+          this.taskService.updateTask(this.selectedTask.id, updatedTask).subscribe({
+            next: (updated) => {
+              // Update the task in the local arrays
+              this.updateTaskInArrays(updated);
+            },
+            error: (error) => {
+              console.error('Error updating task with roadmap:', error);
+            }
+          });
+        }
+      },
+      error: (error) => {
+        this.isGeneratingRoadmap = false;
+        console.error('Error generating roadmap:', error);
+        // You could show an error message here
+      }
+    });
+  }
+
+  private updateTaskInArrays(updatedTask: Task): void {
+    // Update in pending tasks
+    const pendingIndex = this.pendingTasks.findIndex(t => t.id === updatedTask.id);
+    if (pendingIndex !== -1) {
+      this.pendingTasks[pendingIndex] = updatedTask;
+    }
+    
+    // Update in completed tasks
+    const completedIndex = this.completedTasks.findIndex(t => t.id === updatedTask.id);
+    if (completedIndex !== -1) {
+      this.completedTasks[completedIndex] = updatedTask;
+    }
   }
 
   closeRoadmapModal(): void {
     this.showRoadmapModal = false;
     this.selectedTask = null;
     this.selectedTaskRoadmap = null;
+    this.isGeneratingRoadmap = false;
   }
 }
